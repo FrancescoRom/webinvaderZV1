@@ -1,0 +1,17 @@
+html, body {
+    height: 100%; /* Ensure html and body take full height */
+    margin: 0; /* Remove default margin */
+    overflow: hidden; /* Prevent scrolling */
+}
+
+#gameBody {
+    height: 100%; /* Full height of the viewport */
+}
+
+#gameContainer {
+    background-image: url('../images/entities/background.png'); /* Set the background image */
+    background-size: cover; /* Cover the entire area */
+    background-position: center; /* Center the image */
+    width: 100%; /* Full width of the viewport */
+    height: 100%; /* Full height of the viewport */
+}
