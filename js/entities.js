@@ -5,15 +5,21 @@ const zombieImageCount = 4;
 const playerWalkImageCount = 3;
 
 function loadImages(array, prefix, count) {
-  for (let i = 1 <= count; i++; ) {
+  for (let i = 1; i <= count; i++) {
     const img = new Image();
-    img.src = "./images/entities/${prefix}_${i}.png";
-    array.push(img);
+    img.src = `./images/entities/${prefix}${i}.png`;
+    img.onload = () => {
+      console.log(`Loaded ${prefix}${i}.png`);
+      array.push(img); // Move this inside onload to ensure it's only pushed when loaded
+    };
+    img.onerror = () => console.error(`Failed to load ${prefix}${i}.png`);
   }
 }
 
 loadImages(playerWalkImages, "player", playerWalkImageCount);
 playerShootImage.src = "./images/entities/player4.png";
+playerShootImage.onload = () => console.log("Loaded player4.png");
+playerShootImage.onerror = () => console.error("Failed to load player4.png");
 loadImages(zombieImages, "zombie", zombieImageCount);
 
 class Entity {
@@ -77,7 +83,7 @@ class Player extends Entity {
       ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
       ctx.rotate(this.rotation);
       ctx.drawImage(
-        this.images[this.currentFrame],
+        playerShootImage,
         -this.width / 2,
         -this.height / 2,
         this.width,
@@ -93,7 +99,7 @@ class Player extends Entity {
     this.x += dx * this.speed;
     this.y += dy * this.speed;
     if (dx !== 0 || dy !== 0) {
-      this.rotation = Math.atan2(dy, dx);
+      this.rotation = Math.atan2(dy, dx) + Math.PI / 2; // Adjust the angle by 90 degrees (π/2 radians)
     }
   }
 
@@ -103,7 +109,7 @@ class Player extends Entity {
       this.shootCooldown = 20;
       const dx = targetX - (this.x + this.width / 2);
       const dy = targetY - (this.y + this.height / 2);
-      this.rotation = Math.atan2(dy, dx);
+      this.rotation = Math.atan2(dy, dx) + Math.PI / 2; // Adjust the angle by 90 degrees (π/2 radians)
       return {
         x: this.x + this.width / 2,
         y: this.y + this.height / 2,
@@ -124,18 +130,18 @@ class Zombie extends Entity {
     super.update();
     const dx = playerX - this.x;
     const dy = playerY - this.y;
-    const distance = Math.sqrt(dx * dx * dy * dy);
+    const distance = Math.sqrt(dx * dx + dy * dy);
     if (distance > 0) {
       this.x += (dx / distance) * this.speed;
       this.y += (dy / distance) * this.speed;
-      this.rotation = Math.atan2(dy, dx);
+      this.rotation = Math.atan2(dy, dx) - Math.PI / 2; // Adjust the angle by -90 degrees (-π/2 radians)
     }
   }
 }
 
 function loadAllImages() {
   return new Promise((resolve) => {
-    const totalImages = playerWalkImages + zombieImageCount + 1;
+    const totalImages = playerWalkImageCount + zombieImageCount + 1;
     let loadedImages = 0;
 
     function onImageLoad() {

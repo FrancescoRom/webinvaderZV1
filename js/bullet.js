@@ -7,6 +7,12 @@ class Bullet {
     this.height = 10;
     this.image = new Image();
     this.image.src = "./images/entities/bullet.png";
+    this.image.onload = () => {
+      console.log("Bullet image loaded successfully");
+    };
+    this.image.onerror = () => {
+      console.error("Failed to load bullet image");
+    };
   }
 
   update() {
@@ -22,7 +28,7 @@ class Bullet {
   }
 }
 
-class BulletManager {
+export class BulletManager {
   constructor() {
     this.bullets = [];
   }
@@ -34,12 +40,10 @@ class BulletManager {
   updateBullets() {
     this.bullets.forEach((bullet) => bullet.update());
     // remove bullets that are offscreen
-    this.bullet = this.bullets.filter((bullet) => !bullet.isOffScreen());
+    this.bullets = this.bullets.filter((bullet) => !bullet.isOffScreen());
   }
 
   drawBullets(ctx) {
     this.bullets.forEach((bullet) => bullet.draw(ctx));
   }
 }
-
-export const bulletManager = new BulletManager();

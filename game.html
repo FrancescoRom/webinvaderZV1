@@ -8,10 +8,10 @@
     </head>
     <body>
         <div id="gameBody">
+            <canvas id="gameCanvas"></canvas>
             <div id="gameContainer">
                 <div class="overlay"></div>
                 <div id="gameLogo">WebinvaderZ</div>
-                <canvas id="gameCanvas"></canvas>
                 <div class="buttons">
                     <a href="settings.html">
                         <button id="settingsButton">Settings</button>
@@ -25,9 +25,9 @@
                 </a>
             </div>
         </div>
-        <script src="./js/entities.js"></script>
-        <script src="./js/bullet.js"></script>
+        <script src="./js/entities.js" type="module"></script>
+        <script src="./js/bullet.js" type="module"></script>
+        <script src="./js/game.js" type="module"></script>
         <script src="./js/ui.js"></script>
-        <script src="./js/game.js"></script>
     </body>
 </html>
