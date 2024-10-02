@@ -31,7 +31,7 @@ class BulletManager {
     this.bullets.push(new Bullet(x, y));
   }
 
-  updateBullet() {
+  updateBullets() {
     this.bullets.forEach((bullet) => bullet.update());
     // remove bullets that are offscreen
     this.bullet = this.bullets.filter((bullet) => !bullet.isOffScreen());
