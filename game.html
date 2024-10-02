@@ -1,16 +1,33 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./css/game.css">
-    <title>Game</title>
-</head>
-<body>
-    <div id="gameBody">
-        <div id="gameContainer">
-            <!-- Your game content goes here -->
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./css/game.css" />
+        <title>Game</title>
+    </head>
+    <body>
+        <div id="gameBody">
+            <div id="gameContainer">
+                <div class="overlay"></div>
+                <!-- Dark overlay -->
+                <div id="gameLogo">WebinvaderZ</div>
+                <div class="buttons">
+                    <a href="settings.html">
+                        <button id="settingsButton">Settings</button>
+                    </a>
+                    <a href="leaderboard.html">
+                        <button id="leaderboardButton">Leaderboard</button>
+                    </a>
+                </div>
+                <a href="help.html">
+                    <button id="helpButton">Help</button>
+                </a>
+            </div>
         </div>
-    </div>
-</body>
+        <script src="./js/ui.js"></script>
+        <script src="./js/game.js"></script>
+        <script src="./js/bullet.js"></script>
+        <script src="./js/entities.js"></script>
+    </body>
 </html>
