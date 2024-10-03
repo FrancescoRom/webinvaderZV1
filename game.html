@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="em">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,7 +11,10 @@
             <canvas id="gameCanvas"></canvas>
             <div id="gameContainer">
                 <div class="overlay"></div>
-                <div id="gameLogo">WebinvaderZ</div>
+                <div id="logoAndButtonContainer">
+                    <div id="gameLogo">WebinvaderZ</div>
+                    <button id="startButton">Start</button>
+                </div>
                 <div class="buttons">
                     <a href="settings.html">
                         <button id="settingsButton">Settings</button>
@@ -24,6 +27,7 @@
                     <button id="helpButton">Help</button>
                 </a>
                 <div id="score" class="score">Score: 0</div>
+                <div id="pauseGame">Game paused</div>
             </div>
         </div>
         <script src="./js/entities.js" type="module"></script>

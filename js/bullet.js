@@ -1,5 +1,5 @@
 class Bullet {
-  constructor(x, y, speed = 5) {
+  constructor(x, y, speed = 3.5) {
     this.x = x;
     this.y = y;
     this.speed = speed;

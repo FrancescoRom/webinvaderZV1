@@ -66,50 +66,70 @@ class Entity {
   }
 }
 
-// Player class extending Entity
+// Player class
 class Player extends Entity {
   constructor(x, y) {
     super(x, y, 50, 50, playerWalkImages);
-    this.speed = 5;
+    this.speed = 1.5;
     this.isShooting = false;
     this.shootCooldown = 0;
+    this.isMoving = false;
+    this.lastX = x;
+    this.lastY = y;
   }
 
-  // Update player state, including shooting cooldown
+  // Update player state, including shooting cooldown and animation
   update() {
-    super.update();
+    if (this.isMoving) {
+      super.update();
+    }
+    
     if (this.isShooting) {
       this.shootCooldown--;
       if (this.shootCooldown <= 0) {
         this.isShooting = false;
       }
     }
+
+    // Check if the player has actually moved
+    this.isMoving = (this.x !== this.lastX || this.y !== this.lastY);
+    this.lastX = this.x;
+    this.lastY = this.y;
   }
 
   // Draw the player, using shooting image if shooting
   draw(ctx) {
+    ctx.save();
+    ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+    ctx.rotate(this.rotation);
     if (this.isShooting) {
-      ctx.save();
-      ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
-      ctx.rotate(this.rotation);
       ctx.drawImage(
         playerShootImage,
         -this.width / 2,
         -this.height / 2,
         this.width,
-        this.height,
+        this.height
       );
-      ctx.restore();
     } else {
-      super.draw(ctx);
+      ctx.drawImage(
+        this.images[this.isMoving ? this.currentFrame : 0],
+        -this.width / 2,
+        -this.height / 2,
+        this.width,
+        this.height
+      );
     }
+    ctx.restore();
   }
 
   // Move the player and update rotation
   move(dx, dy) {
-    this.x += dx * this.speed;
-    this.y += dy * this.speed;
-    if (dx !== 0 || dy !== 0) {
+    const newX = this.x + dx * this.speed;
+    const newY = this.y + dy * this.speed;
+    
+    if (newX !== this.x || newY !== this.y) {
+      this.x = newX;
+      this.y = newY;
       this.rotation = Math.atan2(dy, dx) + Math.PI / 2; // Adjust the angle by 90 degrees (π/2 radians)
     }
   }
@@ -136,7 +156,7 @@ class Player extends Entity {
 class Zombie extends Entity {
   constructor(x, y) {
     super(x, y, 40, 40, zombieImages);
-    this.speed = 1;
+    this.speed = 0.8;
   }
 
   // Update zombie state, including movement towards player
