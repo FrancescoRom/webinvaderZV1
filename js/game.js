@@ -27,6 +27,9 @@ function initGame() {
   document.addEventListener("keyup", handleKeyUp);
   window.addEventListener("resize", resizeCanvas);
 
+  document.getElementById("startButton").addEventListener("click", handleStartGame);
+  document.getElementById("pauseGame").style.display = "none";
+
   // Load images and start the game
   loadAllImages()
     .then(() => {
@@ -34,6 +37,8 @@ function initGame() {
       setTimeout(() => {
         document.querySelector(".buttons").style.display = "block";
         document.getElementById("helpButton").style.display = "block";
+        document.getElementById("leaderboardButton").style.display = "block";
+        document.getElementById("settingsButton").style.display = "none";
       }, 3000);
       // Start the game after a delay
       setTimeout(startGame, 5000);
@@ -45,6 +50,15 @@ function initGame() {
   // Retrieve the player's score from local storage
   playerScore = getUserScore();
   updateScoreDisplay();
+}
+
+function handleStartGame() {
+  document.getElementById("startButton").style.display = "none"
+  document.getElementById("gameLogo").style.display = "none"
+  document.querySelector(".buttons").style.display = "none"
+  document.getElementById("helpButton").style.display = "none"
+
+  startGame();
 }
 
 // Resize the canvas to fit the window
@@ -81,7 +95,17 @@ function handleKeyUp(event) {
 function togglePause() {
   gameRunning = !gameRunning;
   if (gameRunning) {
+    document.getElementById("helpButton").style.display = "none";
+    document.getElementById("settingsButton").style.display = "none";
+    document.getElementById("leaderboardButton").style.display = "none";
+    document.getElementById("pauseGame").style.display = "none";
+
     requestAnimationFrame(gameLoop);
+  } else {
+    document.getElementById("helpButton").style.display = "block";
+    document.getElementById("settingsButton").style.display = "block";
+    document.getElementById("leaderboardButton").style.display = "block";
+    document.getElementById("pauseGame").style.display = "block";
   }
 }
 
@@ -94,19 +118,17 @@ function createZombie() {
 }
 
 // Update the game state
+
 function update() {
   if (!gameRunning) return;
 
   const currentTime = Date.now();
 
-  // Spawn a new zombie if enough time has passed
   if (currentTime - lastZombieSpawn > ZOMBIE_SPAWN_INTERVAL) {
     zombies.push(createZombie());
     lastZombieSpawn = currentTime;
-    console.log("Zombie count:", zombies.length);
   }
 
-  // Update player movement based on keys pressed
   if (keys["ArrowLeft"]) player.move(-1, 0);
   if (keys["ArrowRight"]) player.move(1, 0);
   if (keys["ArrowUp"]) player.move(0, -1);
@@ -115,7 +137,6 @@ function update() {
   player.update();
   bulletManagerInstance.updateBullets();
 
-  // Update zombies, remove those out of the screen
   zombies = zombies.filter((zombie) => {
     zombie.update(player.x, player.y);
     return zombie.y < canvas.height;
@@ -184,8 +205,8 @@ function checkCollisions() {
   zombies.forEach((zombie, index) => {
     if (isColliding(player, zombie)) {
       console.log("Player hit by zombie!");
-      // Handle player damage or game over logic
-      gameRunning = false;
+      // TO:DO Implement HP system
+      gameRunning = true;
       saveUserScore(playerScore); // Save the score when the game ends
     }
   });
