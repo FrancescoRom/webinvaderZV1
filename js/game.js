@@ -11,14 +11,18 @@ let lastZombieSpawn = 0;
 let playerScore = 0; // Variable to store the player's score
 const ZOMBIE_SPAWN_INTERVAL = 3000; // Spawn a new zombie every 3 seconds
 
+// Initialize the game
 function initGame() {
+  // Get the canvas element and its context
   canvas = document.getElementById("gameCanvas");
   ctx = canvas.getContext("2d");
   resizeCanvas();
   bulletManagerInstance = new BulletManager();
 
+  // Create a new player instance
   player = new Player(canvas.width / 2, canvas.height - 150);
 
+  // Add event listeners for keyboard input and window resize
   document.addEventListener("keydown", handleKeyDown);
   document.addEventListener("keyup", handleKeyUp);
   window.addEventListener("resize", resizeCanvas);
@@ -26,10 +30,12 @@ function initGame() {
   // Load images and start the game
   loadAllImages()
     .then(() => {
+      // Show buttons after a delay
       setTimeout(() => {
         document.querySelector(".buttons").style.display = "block";
         document.getElementById("helpButton").style.display = "block";
       }, 3000);
+      // Start the game after a delay
       setTimeout(startGame, 5000);
     })
     .catch((error) => {
@@ -38,8 +44,10 @@ function initGame() {
 
   // Retrieve the player's score from local storage
   playerScore = getUserScore();
+  updateScoreDisplay();
 }
 
+// Resize the canvas to fit the window
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -53,6 +61,7 @@ function resizeCanvas() {
   });
 }
 
+// Handle key down events
 function handleKeyDown(event) {
   keys[event.code] = true;
   if (event.code === "Space") {
@@ -63,10 +72,12 @@ function handleKeyDown(event) {
   }
 }
 
+// Handle key up events
 function handleKeyUp(event) {
   keys[event.code] = false;
 }
 
+// Toggle the game pause state
 function togglePause() {
   gameRunning = !gameRunning;
   if (gameRunning) {
@@ -74,6 +85,7 @@ function togglePause() {
   }
 }
 
+// Create a new zombie at a random x position at the top of the screen
 function createZombie() {
   const x = Math.random() * canvas.width;
   const y = 0; // Start from the top of the screen
@@ -81,11 +93,13 @@ function createZombie() {
   return new Zombie(x, y);
 }
 
+// Update the game state
 function update() {
   if (!gameRunning) return;
 
   const currentTime = Date.now();
 
+  // Spawn a new zombie if enough time has passed
   if (currentTime - lastZombieSpawn > ZOMBIE_SPAWN_INTERVAL) {
     zombies.push(createZombie());
     lastZombieSpawn = currentTime;
@@ -110,6 +124,7 @@ function update() {
   checkCollisions();
 }
 
+// Draw the game state
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   player.draw(ctx);
@@ -117,6 +132,7 @@ function draw() {
   zombies.forEach((zombie) => zombie.draw(ctx));
 }
 
+// Main game loop
 function gameLoop() {
   if (!gameRunning) return;
 
@@ -139,6 +155,7 @@ function gameLoop() {
   requestAnimationFrame(gameLoop);
 }
 
+// Start the game
 function startGame() {
   gameRunning = true;
   // Create initial zombies
@@ -148,6 +165,7 @@ function startGame() {
   requestAnimationFrame(gameLoop);
 }
 
+// Check for collisions between bullets and zombies, and between player and zombies
 function checkCollisions() {
   // Check for collisions between bullets and zombies
   bulletManagerInstance.bullets.forEach((bullet, bulletIndex) => {
@@ -155,8 +173,9 @@ function checkCollisions() {
       if (isColliding(bullet, zombie)) {
         bulletManagerInstance.bullets.splice(bulletIndex, 1); // Remove bullet
         zombies.splice(zombieIndex, 1); // Remove zombie
-        playerScore += 10; // Increase score
+        playerScore += 1; // Increase score by 1
         saveUserScore(playerScore); // Save the updated score
+        updateScoreDisplay(); // Update the score display
       }
     });
   });
@@ -172,6 +191,7 @@ function checkCollisions() {
   });
 }
 
+// Check if two objects are colliding
 function isColliding(obj1, obj2) {
   return (
     obj1.x < obj2.x + obj2.width &&
@@ -191,4 +211,10 @@ function saveUserScore(score) {
   localStorage.setItem("userScore", score);
 }
 
+// Function to update the score display
+function updateScoreDisplay() {
+  document.getElementById("score").textContent = `Score: ${playerScore}`;
+}
+
+// Initialize the game when the window loads
 window.onload = initGame;

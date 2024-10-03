@@ -4,24 +4,29 @@ const zombieImages = [];
 const zombieImageCount = 4;
 const playerWalkImageCount = 3;
 
+// Function to load images into an array
 function loadImages(array, prefix, count) {
   for (let i = 1; i <= count; i++) {
     const img = new Image();
     img.src = `./images/entities/${prefix}${i}.png`;
     img.onload = () => {
       console.log(`Loaded ${prefix}${i}.png`);
-      array.push(img); // Move this inside onload to ensure it's only pushed when loaded
+      array.push(img); // Ensure image is only added to array after it has loaded
     };
     img.onerror = () => console.error(`Failed to load ${prefix}${i}.png`);
   }
 }
 
+// Load player walking images and shooting image
 loadImages(playerWalkImages, "player", playerWalkImageCount);
 playerShootImage.src = "images/entities/player4.png";
 playerShootImage.onload = () => console.log("Loaded player4.png");
 playerShootImage.onerror = () => console.error("Failed to load player4.png");
+
+// Load zombie images
 loadImages(zombieImages, "zombie", zombieImageCount);
 
+// Base class for entities like Player and Zombie
 class Entity {
   constructor(x, y, width, height, images) {
     this.x = x;
@@ -36,6 +41,7 @@ class Entity {
     this.rotation = 0;
   }
 
+  // Update the frame for animation
   update() {
     this.frameCounter++;
     if (this.frameCounter >= this.frameDelay) {
@@ -44,6 +50,7 @@ class Entity {
     }
   }
 
+  // Draw the entity on the canvas
   draw(ctx) {
     ctx.save();
     ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
@@ -59,6 +66,7 @@ class Entity {
   }
 }
 
+// Player class extending Entity
 class Player extends Entity {
   constructor(x, y) {
     super(x, y, 50, 50, playerWalkImages);
@@ -67,6 +75,7 @@ class Player extends Entity {
     this.shootCooldown = 0;
   }
 
+  // Update player state, including shooting cooldown
   update() {
     super.update();
     if (this.isShooting) {
@@ -77,6 +86,7 @@ class Player extends Entity {
     }
   }
 
+  // Draw the player, using shooting image if shooting
   draw(ctx) {
     if (this.isShooting) {
       ctx.save();
@@ -95,6 +105,7 @@ class Player extends Entity {
     }
   }
 
+  // Move the player and update rotation
   move(dx, dy) {
     this.x += dx * this.speed;
     this.y += dy * this.speed;
@@ -103,6 +114,7 @@ class Player extends Entity {
     }
   }
 
+  // Handle shooting action
   shoot(targetX, targetY) {
     if (!this.isShooting) {
       this.isShooting = true;
@@ -120,12 +132,14 @@ class Player extends Entity {
   }
 }
 
+// Zombie class extending Entity
 class Zombie extends Entity {
   constructor(x, y) {
     super(x, y, 40, 40, zombieImages);
     this.speed = 1;
   }
 
+  // Update zombie state, including movement towards player
   update(playerX, playerY) {
     super.update();
     const dx = playerX - this.x;
@@ -139,6 +153,7 @@ class Zombie extends Entity {
   }
 }
 
+// Function to load all images and resolve a promise when done
 function loadAllImages() {
   return new Promise((resolve) => {
     const totalImages = playerWalkImageCount + zombieImageCount + 1;

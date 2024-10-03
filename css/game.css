@@ -119,6 +119,16 @@ button:hover {
     background-color: #c0392b;
 }
 
+.score {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    color: red; /* Set text color to red */
+    z-index: 6; /* Ensure it is above other elements */
+}
+
 @keyframes zoomIn {
     0% {
         background-size: 200% auto;
