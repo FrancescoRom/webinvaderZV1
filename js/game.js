@@ -8,6 +8,7 @@ let keys = {};
 let player;
 let zombies = [];
 let lastZombieSpawn = 0;
+let playerScore = 0; // Variable to store the player's score
 const ZOMBIE_SPAWN_INTERVAL = 3000; // Spawn a new zombie every 3 seconds
 
 function initGame() {
@@ -34,6 +35,9 @@ function initGame() {
     .catch((error) => {
       console.error("Failed to load images:", error);
     });
+
+  // Retrieve the player's score from local storage
+  playerScore = getUserScore();
 }
 
 function resizeCanvas() {
@@ -151,7 +155,8 @@ function checkCollisions() {
       if (isColliding(bullet, zombie)) {
         bulletManagerInstance.bullets.splice(bulletIndex, 1); // Remove bullet
         zombies.splice(zombieIndex, 1); // Remove zombie
-        // Increase score or handle zombie death
+        playerScore += 10; // Increase score
+        saveUserScore(playerScore); // Save the updated score
       }
     });
   });
@@ -161,6 +166,8 @@ function checkCollisions() {
     if (isColliding(player, zombie)) {
       console.log("Player hit by zombie!");
       // Handle player damage or game over logic
+      gameRunning = false;
+      saveUserScore(playerScore); // Save the score when the game ends
     }
   });
 }
@@ -172,6 +179,16 @@ function isColliding(obj1, obj2) {
     obj1.y < obj2.y + obj2.height &&
     obj1.y + obj1.height > obj2.y
   );
+}
+
+// Function to get the user's score from local storage
+function getUserScore() {
+  return parseInt(localStorage.getItem("userScore")) || 0;
+}
+
+// Function to save the user's score in local storage
+function saveUserScore(score) {
+  localStorage.setItem("userScore", score);
 }
 
 window.onload = initGame;

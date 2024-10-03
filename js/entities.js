@@ -17,7 +17,7 @@ function loadImages(array, prefix, count) {
 }
 
 loadImages(playerWalkImages, "player", playerWalkImageCount);
-playerShootImage.src = "./images/entities/player4.png";
+playerShootImage.src = "images/entities/player4.png";
 playerShootImage.onload = () => console.log("Loaded player4.png");
 playerShootImage.onerror = () => console.error("Failed to load player4.png");
 loadImages(zombieImages, "zombie", zombieImageCount);

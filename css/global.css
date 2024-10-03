@@ -1,0 +1,54 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: black;
+    color: red; /* Set text color to red */
+}
+
+.leaderboard-container {
+    text-align: center;
+    padding: 20px;
+    /* Remove background, border-radius, and box-shadow */
+}
+
+.leaderboard-title {
+    font-size: 36px; /* Increase font size */
+    margin-bottom: 20px;
+}
+
+.leaderboard-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    font-size: 24px; /* Increase font size */
+}
+
+.leaderboard-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    border-bottom-color: red; /* Change border color to red */
+}
+
+.your-score {
+    font-size: 24px; /* Increase font size */
+    margin-top: 20px;
+}
+
+.back-button {
+    font-size: 18px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: red;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: darkred;
+}

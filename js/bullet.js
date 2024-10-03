@@ -6,7 +6,7 @@ class Bullet {
     this.width = 5;
     this.height = 10;
     this.image = new Image();
-    this.image.src = "./images/entities/bullet.png";
+    this.image.src = "images/entities/bullet.png";
     this.image.onload = () => {
       console.log("Bullet image loaded successfully");
     };
