@@ -152,13 +152,16 @@ button:hover {
 
 #pauseGame {
     position: absolute;
-    top: 40%;
-    left: 30%;
+    top: 40%; /* Keep this as is to center it vertically */
+    left: 50%; /* Center horizontally */
     color: #e74c3c;
-    font-size: 8vw; /* Responsive font size */
+    font-size: 5vw; /* Responsive font size based on viewport width */
     opacity: 0.8;
     z-index: 8;
+    transform: translate(-50%, -50%); /* Center the text */
+    white-space: nowrap; /* Prevent line breaks */
 }
+
 
 .score {
     position: absolute;
