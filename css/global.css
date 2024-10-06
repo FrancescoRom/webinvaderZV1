@@ -36,6 +36,7 @@ body {
 .your-score {
     font-size: 24px; /* Increase font size */
     margin-top: 20px;
+    color: lightgreen;
 }
 
 .back-button {

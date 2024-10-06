@@ -20,14 +20,21 @@ function initGame() {
   bulletManagerInstance = new BulletManager();
 
   // Create a new player instance
-  player = new Player(canvas.width / 2, canvas.height - 150);
+  player = new Player(
+    canvas.width / 2,
+    canvas.height - 150,
+    canvas.width,
+    canvas.height,
+  );
 
   // Add event listeners for keyboard input and window resize
   document.addEventListener("keydown", handleKeyDown);
   document.addEventListener("keyup", handleKeyUp);
   window.addEventListener("resize", resizeCanvas);
 
-  document.getElementById("startButton").addEventListener("click", handleStartGame);
+  document
+    .getElementById("startButton")
+    .addEventListener("click", handleStartGame);
   document.getElementById("pauseGame").style.display = "none";
 
   // Load images and start the game
@@ -53,10 +60,10 @@ function initGame() {
 }
 
 function handleStartGame() {
-  document.getElementById("startButton").style.display = "none"
-  document.getElementById("gameLogo").style.display = "none"
-  document.querySelector(".buttons").style.display = "none"
-  document.getElementById("helpButton").style.display = "none"
+  document.getElementById("startButton").style.display = "none";
+  document.getElementById("gameLogo").style.display = "none";
+  document.querySelector(".buttons").style.display = "none";
+  document.getElementById("helpButton").style.display = "none";
 
   startGame();
 }
@@ -79,7 +86,12 @@ function resizeCanvas() {
 function handleKeyDown(event) {
   keys[event.code] = true;
   if (event.code === "Space") {
-    bulletManagerInstance.addBullet(player.x + player.width / 2, player.y);
+    const bulletStartPosition = player.getBulletStartPosition();
+    bulletManagerInstance.addBullet(
+      bulletStartPosition.x,
+      bulletStartPosition.y,
+      player.rotation,
+    );
   }
   if (event.code === "Escape") {
     togglePause();
@@ -135,7 +147,7 @@ function update() {
   if (keys["ArrowDown"]) player.move(0, 1);
 
   player.update();
-  bulletManagerInstance.updateBullets();
+  bulletManagerInstance.updateBullets(canvas);
 
   zombies = zombies.filter((zombie) => {
     zombie.update(player.x, player.y);

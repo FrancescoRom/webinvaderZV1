@@ -1,10 +1,11 @@
 class Bullet {
-  constructor(x, y, speed = 3.5) {
+  constructor(x, y, angle, speed = 3.5) {
     this.x = x;
     this.y = y;
+    this.angle = angle;
     this.speed = speed;
-    this.width = 5;
-    this.height = 10;
+    this.width = 15;
+    this.height = 30;
     this.image = new Image();
     this.image.src = "images/entities/bullet.png";
     this.image.onload = () => {
@@ -16,15 +17,31 @@ class Bullet {
   }
 
   update() {
-    this.y -= this.speed;
+    this.x += this.speed * Math.cos(this.angle - Math.PI / 2);
+    this.y += this.speed * Math.sin(this.angle - Math.PI / 2);
   }
 
   draw(ctx) {
-    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    ctx.drawImage(
+      this.image,
+      -this.width / 2,
+      -this.height / 2,
+      this.width,
+      this.height,
+    );
+    ctx.restore();
   }
 
-  isOffScreen() {
-    return this.y + this.height < 0;
+  isOffScreen(canvas) {
+    return (
+      this.x < 0 ||
+      this.x > canvas.width ||
+      this.y < 0 ||
+      this.y > canvas.height
+    );
   }
 }
 
@@ -33,14 +50,17 @@ export class BulletManager {
     this.bullets = [];
   }
 
-  addBullet(x, y) {
-    this.bullets.push(new Bullet(x, y));
+  addBullet(playerX, playerY, angle) {
+    this.bullets.push(new Bullet(playerX, playerY, angle));
   }
 
-  updateBullets() {
-    this.bullets.forEach((bullet) => bullet.update());
-    // remove bullets that are offscreen
-    this.bullets = this.bullets.filter((bullet) => !bullet.isOffScreen());
+  updateBullets(canvas) {
+    this.bullets.forEach((bullet, index) => {
+      bullet.update();
+      if (bullet.isOffScreen(canvas)) {
+        this.bullets.splice(index, 1);
+      }
+    });
   }
 
   drawBullets(ctx) {

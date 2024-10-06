@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Example: Set the user's score (this would be dynamic in a real application)
-  const userScore = 110; // Replace this with the actual user's score
+  const userScore = getUserScore(); // Replace this with the actual user's score
   setUserScore(userScore);
 
   // Retrieve the user's score from local storage

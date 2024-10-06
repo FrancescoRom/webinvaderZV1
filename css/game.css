@@ -72,9 +72,9 @@ a {
 
 #logoAndButtonContainer {
     position: absolute;
-    top: 30%; 
+    top: 30%;
     left: 50%;
-    transform: translate(-50%, -30%); 
+    transform: translate(-50%, -30%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -90,7 +90,7 @@ a {
 }
 
 #startButton {
-    margin-left: 17vw;
+    margin-left: 12vw;
     margin-top: 5vw;
     padding: 20px 30px;
     font-size: 3vw; /* Responsive font size */
@@ -99,7 +99,9 @@ a {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+    transition:
+        background-color 0.3s,
+        transform 0.2s;
     opacity: 0;
     animation: fadeInStartButton 2s ease-out 3s forwards;
 }
@@ -213,9 +215,9 @@ button:hover {
     }
 }
 
-
 @media (max-width: 1024px) {
-    #gameLogo, #pauseGame {
+    #gameLogo,
+    #pauseGame {
         font-size: 8vw; /* Adjusted font size for tablets */
     }
 
@@ -239,9 +241,9 @@ button:hover {
     }
 }
 
-
 @media (max-width: 768px) {
-    #gameLogo, #pauseGame {
+    #gameLogo,
+    #pauseGame {
         font-size: 8vw; /* Adjusted font size for tablets */
     }
 
@@ -267,7 +269,8 @@ button:hover {
 }
 
 @media (max-width: 480px) {
-    #gameLogo, #pauseGame {
+    #gameLogo,
+    #pauseGame {
         font-size: 12vw; /* Adjusted for smaller screens */
     }
 

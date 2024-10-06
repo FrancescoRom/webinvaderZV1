@@ -68,7 +68,7 @@ class Entity {
 
 // Player class
 class Player extends Entity {
-  constructor(x, y) {
+  constructor(x, y, canvasWidth, canvasHeight) {
     super(x, y, 50, 50, playerWalkImages);
     this.speed = 1.5;
     this.isShooting = false;
@@ -76,6 +76,8 @@ class Player extends Entity {
     this.isMoving = false;
     this.lastX = x;
     this.lastY = y;
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
   }
 
   // Update player state, including shooting cooldown and animation
@@ -83,7 +85,7 @@ class Player extends Entity {
     if (this.isMoving) {
       super.update();
     }
-    
+
     if (this.isShooting) {
       this.shootCooldown--;
       if (this.shootCooldown <= 0) {
@@ -92,7 +94,7 @@ class Player extends Entity {
     }
 
     // Check if the player has actually moved
-    this.isMoving = (this.x !== this.lastX || this.y !== this.lastY);
+    this.isMoving = this.x !== this.lastX || this.y !== this.lastY;
     this.lastX = this.x;
     this.lastY = this.y;
   }
@@ -108,7 +110,7 @@ class Player extends Entity {
         -this.width / 2,
         -this.height / 2,
         this.width,
-        this.height
+        this.height,
       );
     } else {
       ctx.drawImage(
@@ -116,7 +118,7 @@ class Player extends Entity {
         -this.width / 2,
         -this.height / 2,
         this.width,
-        this.height
+        this.height,
       );
     }
     ctx.restore();
@@ -126,10 +128,16 @@ class Player extends Entity {
   move(dx, dy) {
     const newX = this.x + dx * this.speed;
     const newY = this.y + dy * this.speed;
-    
-    if (newX !== this.x || newY !== this.y) {
+
+    // Boundary checks
+    if (newX >= 0 && newX + this.width <= this.canvasWidth) {
       this.x = newX;
+    }
+    if (newY >= 0 && newY + this.height <= this.canvasHeight) {
       this.y = newY;
+    }
+
+    if (dx !== 0 || dy !== 0) {
       this.rotation = Math.atan2(dy, dx) + Math.PI / 2; // Adjust the angle by 90 degrees (π/2 radians)
     }
   }
@@ -149,6 +157,23 @@ class Player extends Entity {
       };
     }
     return null;
+  }
+
+  // Get the bullet's starting position based on the players rotation
+  getBulletStartPosition() {
+    const bulletOffset = this.width / 2;
+    const bulletX =
+      this.x +
+      this.width / 2 +
+      bulletOffset * Math.cos(this.rotation - Math.PI / 2);
+    const bulletY =
+      this.y +
+      this.height / 2 +
+      bulletOffset * Math.sin(this.rotation - Math.PI / 2);
+    return {
+      x: bulletX,
+      y: bulletY,
+    };
   }
 }
 
