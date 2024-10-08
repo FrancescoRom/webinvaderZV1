@@ -1,0 +1,56 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: black;
+    color: red;
+}
+
+p,
+h2 {
+    font-size: 2vw;
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    font-size: 4vw;
+    text-decoration: underline;
+    text-decoration-color: red;
+    text-decoration-thickness: 3px;
+}
+
+#help-container {
+    text-align: center;
+}
+
+#back-to-game-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.back-button {
+    font-size: 2vw;
+    padding: 10px 20px;
+    background-color: red;
+    color: black;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: darkred;
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background: darkred;
+    margin: 20px 0;
+    width: 100%;
+}

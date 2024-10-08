@@ -5,6 +5,7 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    font-family: Arial, sans-serif;
     background-color: black;
 }
 
@@ -90,7 +91,7 @@ a {
 }
 
 #startButton {
-    margin-left: 12vw;
+    margin-left: 11vw;
     margin-top: 5vw;
     padding: 20px 30px;
     font-size: 3vw; /* Responsive font size */
@@ -155,7 +156,7 @@ button:hover {
 #pauseGame {
     position: absolute;
     top: 40%;
-    left: 30%;
+    left: 25%;
     color: #e74c3c;
     font-size: 8vw; /* Responsive font size */
     opacity: 0.8;

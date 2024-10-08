@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", function () {
     localStorage.setItem("userScore", score);
   }
 
-  // Example: Set the user's score (this would be dynamic in a real application)
-  const userScore = getUserScore(); // Replace this with the actual user's score
+  // user score for the leaderboard
+  const userScore = getUserScore();
   setUserScore(userScore);
 
   // Retrieve the user's score from local storage
