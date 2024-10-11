@@ -14,6 +14,10 @@ a {
     color: inherit; /* Inherit the color from the parent element */
 }
 
+.dark-red {
+    color: darkred;
+}
+
 #gameContainer {
     position: absolute;
     top: 0;
@@ -165,13 +169,13 @@ button:hover {
 
 .score {
     position: absolute;
-    padding-top: 15px;
+    padding-top: 30px;
     top: 3.5%;
     left: 50%;
     transform: translateX(-50%);
     font-size: 5vw; /* Responsive font size */
     text-shadow: 2px 2px #000;
-    color: #e74c3c;
+    color: darkred;
     z-index: 6;
     font-weight: bold;
     opacity: 0;

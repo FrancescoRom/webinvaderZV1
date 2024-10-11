@@ -6,5 +6,24 @@
         <link rel="stylesheet" href="./css/settings.css" />
         <title>Settings</title>
     </head>
-    <body></body>
+    <body>
+        <div class="container">
+            <h1>Game Settings</h1>
+            <form id="settingsForm">
+                <div class="setting">
+                    <label for="difficulty">Difficulty:</label>
+                    <select name="difficulty" id="difficulty">
+                        <option value="Easy">Easy</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Hard">Hard</option>
+                    </select>
+                </div>
+                <div class="settings">
+                    <button type="submit">Save Settings</button>
+                </div>
+                <a href="game.html" class="back-button">Back to Game</a>
+            </form>
+        </div>
+        <script src="./js/settings.js"></script>
+    </body>
 </html>

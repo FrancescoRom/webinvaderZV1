@@ -55,8 +55,26 @@ function initGame() {
     });
 
   // Retrieve the player's score from local storage
+  gameDifficultySettings(difficulty);
   playerScore = getUserScore();
   updateScoreDisplay();
+}
+
+function gameDifficultySettings(difficulty) {
+  switch (difficulty) {
+    case "easy":
+      // easy mode
+      break;
+    case "medium":
+      // medium mode
+      break;
+    case "hard":
+      // hard mode
+      break;
+    default:
+      // defaults to normal
+      break;
+  }
 }
 
 function handleStartGame() {
@@ -251,3 +269,5 @@ function updateScoreDisplay() {
 
 // Initialize the game when the window loads
 window.onload = initGame;
+
+// TO:DO Implement score and health system based on difficulty
