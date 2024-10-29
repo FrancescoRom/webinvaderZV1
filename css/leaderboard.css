@@ -6,7 +6,7 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: black;
-    color: red; /* Set text color to red */
+    color: red;
 }
 
 p,
@@ -25,29 +25,35 @@ h1 {
 .leaderboard-container {
     text-align: center;
     padding: 20px;
-    /* Remove background, border-radius, and box-shadow */
 }
 
 .leaderboard-title {
-    font-size: 36px; /* Increase font size */
+    font-size: 2.5vw;
     margin-bottom: 20px;
+    text-decoration: underline;
+    text-decoration-color: darkred;
 }
 
 .leaderboard-list {
     list-style: none;
     padding: 0;
     margin: 0 0 20px 0;
-    font-size: 24px; /* Increase font size */
+    font-size: 24px;
 }
 
 .leaderboard-list li {
     padding: 10px;
     border-bottom: 1px solid #ddd;
-    border-bottom-color: red; /* Change border color to red */
+    border-bottom-color: red;
+}
+
+.leaderboard-list li.highlight {
+    color: lightgreen;
+    font-weight: 500;
 }
 
 .your-score {
-    font-size: 24px; /* Increase font size */
+    font-size: 1.5vw;
     margin-top: 20px;
     margin-bottom: 10px;
     color: lightgreen;
@@ -65,4 +71,91 @@ h1 {
 
 .back-button:hover {
     background-color: darkred;
+}
+
+/* Tablets */
+@media (max-width: 1024px) {
+    p,
+    h2 {
+        font-size: 3vw;
+    }
+
+    h1 {
+        font-size: 6vw;
+    }
+
+    .leaderboard-title {
+        font-size: 4vw;
+    }
+
+    .leaderboard-list {
+        font-size: 2.5vw;
+    }
+
+    .your-score {
+        font-size: 3vw;
+    }
+
+    .back-button {
+        font-size: 2vw;
+        padding: 12px 24px;
+    }
+}
+
+/* Smaller tablets/bigger phones */
+@media (max-width: 768px) {
+    p,
+    h2 {
+        font-size: 4vw;
+    }
+
+    h1 {
+        font-size: 8vw;
+    }
+
+    .leaderboard-title {
+        font-size: 5vw;
+    }
+
+    .leaderboard-list {
+        font-size: 3vw;
+    }
+
+    .your-score {
+        font-size: 4vw;
+    }
+
+    .back-button {
+        font-size: 2.5vw;
+        padding: 14px 28px;
+    }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+    p,
+    h2 {
+        font-size: 5vw;
+    }
+
+    h1 {
+        font-size: 10vw;
+    }
+
+    .leaderboard-title {
+        font-size: 6vw;
+    }
+
+    .leaderboard-list {
+        font-size: 4vw;
+    }
+
+    .your-score {
+        font-size: 5vw;
+    }
+
+    .back-button {
+        font-size: 3vw;
+        padding: 16px 32px;
+    }
 }

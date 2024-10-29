@@ -88,7 +88,7 @@ a {
 }
 
 #gameLogo {
-    font-size: 10vw; /* Responsive font size */
+    font-size: 10vw;
     color: #e74c3c;
     text-shadow: 2px 2px #000;
     animation: fadeIn 5s ease-in forwards;
@@ -98,7 +98,7 @@ a {
     margin-left: 11vw;
     margin-top: 5vw;
     padding: 20px 30px;
-    font-size: 3vw; /* Responsive font size */
+    font-size: 3vw;
     color: rgb(0, 0, 0);
     background-color: #e74c3c;
     border: none;
@@ -162,7 +162,7 @@ button:hover {
     top: 40%;
     left: 25%;
     color: #e74c3c;
-    font-size: 8vw; /* Responsive font size */
+    font-size: 8vw;
     opacity: 0.8;
     z-index: 8;
 }
@@ -173,13 +173,27 @@ button:hover {
     top: 3.5%;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 5vw; /* Responsive font size */
+    font-size: 5vw;
     text-shadow: 2px 2px #000;
     color: darkred;
     z-index: 6;
     font-weight: bold;
     opacity: 0;
     animation: fadeInStartButton 2s ease-out 3s forwards;
+}
+
+.player-hp {
+    position: absolute;
+    top: 85%;
+    left: 10%;
+    transform: translateX(-50%);
+    font-size: 4vw;
+    text-shadow: 2px 2px #000;
+    color: darkred;
+    z-index: 6;
+    font-weight: bold;
+    opacity: 0;
+    animation: fadeInHP 2s ease-out 3s forwards;
 }
 
 @keyframes zoomIn {
@@ -220,78 +234,90 @@ button:hover {
     }
 }
 
-@media (max-width: 1024px) {
-    #gameLogo,
-    #pauseGame {
-        font-size: 8vw; /* Adjusted font size for tablets */
+@keyframes fadeInHP {
+    from {
+        opacity: 0;
     }
-
-    button,
-    #helpButton {
-        font-size: 1.2rem; /* Adjusted font size */
-        padding: 10px 20px; /* Adjusted padding */
-    }
-
-    #startButton {
-        font-size: 2.5rem; /* Slightly smaller for tablets */
-        padding: 15px 30px;
-    }
-
-    #logoAndButtonContainer {
-        gap: 5%; /* Responsive gap */
-    }
-
-    #score {
-        font-size: 4vw; /* Adjusted for smaller screens */
+    to {
+        opacity: 1;
     }
 }
 
-@media (max-width: 768px) {
+/* Tablets */
+@media (max-width: 1024px) {
     #gameLogo,
     #pauseGame {
-        font-size: 8vw; /* Adjusted font size for tablets */
+        font-size: 8vw;
     }
 
     button,
     #helpButton {
-        font-size: 1.2rem; /* Adjusted font size */
-        padding: 10px 20px; /* Adjusted padding */
+        font-size: 1.2rem;
+        padding: 10px 20px;
     }
 
     #startButton {
-        font-size: 2.5rem; /* Slightly smaller for tablets */
+        font-size: 2.5rem;
         padding: 15px 30px;
     }
 
     #logoAndButtonContainer {
-        gap: 5%; /* Responsive gap */
+        gap: 5%; /
     }
 
     #score {
-        font-size: 4vw; /* Adjusted for smaller screens */
+        font-size: 4vw;
+    }
+}
+
+/* Smaller tablets/bigger phones */
+@media (max-width: 768px) {
+    #gameLogo,
+    #pauseGame {
+        font-size: 8vw;
+    }
+
+    button,
+    #helpButton {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+    }
+
+    #startButton {
+        font-size: 2.5rem;
+        padding: 15px 30px;
+    }
+
+    #logoAndButtonContainer {
+        gap: 5%;
+    }
+
+    #score {
+        font-size: 4vw;
         margin-top: 10%;
     }
 }
 
+/* Phones */
 @media (max-width: 480px) {
     #gameLogo,
     #pauseGame {
-        font-size: 12vw; /* Adjusted for smaller screens */
+        font-size: 12vw;
     }
 
     button,
     #helpButton {
-        font-size: 1rem; /* Adjusted font size */
-        padding: 8px 16px; /* Adjusted padding */
+        font-size: 1rem;
+        padding: 8px 16px;
     }
 
     #startButton {
-        font-size: 1rem; /* Smaller for mobile */
+        font-size: 1rem;
         padding: 12px 20px;
     }
 
     #score {
-        font-size: 4vw; /* Adjusted for smaller screens */
+        font-size: 4vw;
         margin-top: 10%;
     }
 }

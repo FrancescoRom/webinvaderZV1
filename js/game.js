@@ -9,7 +9,11 @@ let player;
 let zombies = [];
 let lastZombieSpawn = 0;
 let playerScore = 0; // Variable to store the player's score
-const ZOMBIE_SPAWN_INTERVAL = 3000; // Spawn a new zombie every 3 seconds
+let gameDifficulty = "Medium"; // Default difficulty
+const ZOMBIE_SPAWN_INTERVAL = 2000; // Spawn a new zombie every 2 seconds
+let playerHits = 0; // Track the number of times the player is hit
+const MAX_PLAYER_HITS = 3; // Maximum hits before game over
+let lastHitTime = 0; // Track the last time the player was hit
 
 // Initialize the game
 function initGame() {
@@ -45,7 +49,7 @@ function initGame() {
         document.querySelector(".buttons").style.display = "block";
         document.getElementById("helpButton").style.display = "block";
         document.getElementById("leaderboardButton").style.display = "block";
-        document.getElementById("settingsButton").style.display = "none";
+        document.getElementById("settingsButton").style.display = "block";
       }, 3000);
       // Start the game after a delay
       setTimeout(startGame, 5000);
@@ -55,24 +59,31 @@ function initGame() {
     });
 
   // Retrieve the player's score from local storage
-  gameDifficultySettings(difficulty);
+  gameDifficulty = localStorage.getItem("gameDifficulty") || "Medium";
+  gameDifficultySettings(gameDifficulty);
   playerScore = getUserScore();
   updateScoreDisplay();
+  updatePlayerHPDisplay();
 }
 
+// Handles the game difficulty set in settings.html
 function gameDifficultySettings(difficulty) {
   switch (difficulty) {
-    case "easy":
-      // easy mode
+    case "Easy":
+      player.speed = 2.3;
+      ZOMBIE_SPAWN_INTERVAL = 3000;
       break;
-    case "medium":
-      // medium mode
+    case "Medium":
+      player.speed = 2;
+      ZOMBIE_SPAWN_INTERVAL = 2000;
       break;
-    case "hard":
-      // hard mode
+    case "Hard":
+      player.speed = 1.7;
+      ZOMBIE_SPAWN_INTERVAL = 500;
       break;
     default:
-      // defaults to normal
+      player.speed = 2;
+      ZOMBIE_SPAWN_INTERVAL = 2000;
       break;
   }
 }
@@ -83,6 +94,7 @@ function handleStartGame() {
   document.querySelector(".buttons").style.display = "none";
   document.getElementById("helpButton").style.display = "none";
 
+  resetGame();
   startGame();
 }
 
@@ -143,12 +155,10 @@ function togglePause() {
 function createZombie() {
   const x = Math.random() * canvas.width;
   const y = 0; // Start from the top of the screen
-  console.log("Creating zombie at:", x, y);
-  return new Zombie(x, y);
+  return new Zombie(x, y, gameDifficulty);
 }
 
 // Update the game state
-
 function update() {
   if (!gameRunning) return;
 
@@ -209,11 +219,19 @@ function gameLoop() {
 // Start the game
 function startGame() {
   gameRunning = true;
-  // Create initial zombies
-  for (let i = 0; i < 5; i++) {
-    zombies.push(createZombie());
-  }
   requestAnimationFrame(gameLoop);
+}
+
+// Reset the game state
+function resetGame() {
+  playerHits = 0; // Reset player hits
+  lastHitTime = 0; // Reset last hit time
+  playerScore = 0; // Reset player score
+  zombies = []; // Clear existing zombies
+  player.x = canvas.width / 2; // Reset player position
+  player.y = canvas.height - 150;
+  updateScoreDisplay();
+  updatePlayerHPDisplay();
 }
 
 // Check for collisions between bullets and zombies, and between player and zombies
@@ -232,12 +250,19 @@ function checkCollisions() {
   });
 
   // Check for collisions between player and zombies
+  const currentTime = Date.now();
   zombies.forEach((zombie, index) => {
     if (isColliding(player, zombie)) {
-      console.log("Player hit by zombie!");
-      // TO:DO Implement HP system
-      gameRunning = true;
-      saveUserScore(playerScore); // Save the score when the game ends
+      if (currentTime - lastHitTime > 3000) {
+        // 3 seconds cooldown
+        playerHits += 1;
+        lastHitTime = currentTime;
+        console.log(`Player hit by zombie! Hits: ${playerHits}`);
+        updatePlayerHPDisplay();
+        if (playerHits >= MAX_PLAYER_HITS) {
+          endGame();
+        }
+      }
     }
   });
 }
@@ -250,6 +275,17 @@ function isColliding(obj1, obj2) {
     obj1.y < obj2.y + obj2.height &&
     obj1.y + obj1.height > obj2.y
   );
+}
+
+// Function to end the game
+function endGame() {
+  gameRunning = false;
+  saveUserScore(playerScore); // Save the score when the game ends
+  alert("Game Over! You were hit 3 times.");
+  document.getElementById("startButton").style.display = "block";
+  document.getElementById("gameLogo").style.display = "block";
+  document.querySelector(".buttons").style.display = "block";
+  document.getElementById("helpButton").style.display = "block";
 }
 
 // Function to get the user's score from local storage
@@ -267,7 +303,11 @@ function updateScoreDisplay() {
   document.getElementById("score").textContent = `Score: ${playerScore}`;
 }
 
+// Function to update the player's HP display
+function updatePlayerHPDisplay() {
+  const hpElement = document.getElementById("playerHP");
+  hpElement.textContent = `HP: ${MAX_PLAYER_HITS - playerHits}`;
+}
+
 // Initialize the game when the window loads
 window.onload = initGame;
-
-// TO:DO Implement score and health system based on difficulty

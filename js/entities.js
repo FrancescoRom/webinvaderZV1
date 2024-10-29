@@ -52,17 +52,19 @@ class Entity {
 
   // Draw the entity on the canvas
   draw(ctx) {
-    ctx.save();
-    ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
-    ctx.rotate(this.rotation);
-    ctx.drawImage(
-      this.images[this.currentFrame],
-      -this.width / 2,
-      -this.height / 2,
-      this.width,
-      this.height,
-    );
-    ctx.restore();
+    if (this.images.length > 0) {
+      ctx.save();
+      ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+      ctx.rotate(this.rotation);
+      ctx.drawImage(
+        this.images[this.currentFrame],
+        -this.width / 2,
+        -this.height / 2,
+        this.width,
+        this.height,
+      );
+      ctx.restore();
+    }
   }
 }
 
@@ -113,13 +115,15 @@ class Player extends Entity {
         this.height,
       );
     } else {
-      ctx.drawImage(
-        this.images[this.isMoving ? this.currentFrame : 0],
-        -this.width / 2,
-        -this.height / 2,
-        this.width,
-        this.height,
-      );
+      if (this.images.length > 0) {
+        ctx.drawImage(
+          this.images[this.isMoving ? this.currentFrame : 0],
+          -this.width / 2,
+          -this.height / 2,
+          this.width,
+          this.height,
+        );
+      }
     }
     ctx.restore();
   }
@@ -179,9 +183,28 @@ class Player extends Entity {
 
 // Zombie class extending Entity
 class Zombie extends Entity {
-  constructor(x, y) {
+  constructor(x, y, difficulty) {
     super(x, y, 40, 40, zombieImages);
-    this.speed = 0.8;
+    this.speed = 1.2;
+    this.difficulty = difficulty;
+    this.setDifficultySettings();
+  }
+  // zombie speed based on dfficulty
+  setDifficultySettings() {
+    switch (this.difficulty) {
+      case "Easy":
+        this.speed = 0.8;
+        break;
+      case "Medium":
+        this.speed = 1.2;
+        break;
+      case "Hard":
+        this.speed = 1.5;
+        break;
+      default:
+        this.speed = 1.2;
+        break;
+    }
   }
 
   // Update zombie state, including movement towards player

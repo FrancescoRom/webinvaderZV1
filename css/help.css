@@ -54,3 +54,54 @@ h1 {
     margin: 20px 0;
     width: 100%;
 }
+
+/* Tablets */
+@media (max-width: 1024px) {
+    p,
+    h2 {
+        font-size: 3vw;
+    }
+
+    h1 {
+        font-size: 6vw;
+    }
+
+    .back-button {
+        font-size: 2.5vw;
+        padding: 12px 24px;
+    }
+}
+
+/* Smaller tablets/bigger phones */
+@media (max-width: 768px) {
+    p,
+    h2 {
+        font-size: 4vw;
+    }
+
+    h1 {
+        font-size: 8vw;
+    }
+
+    .back-button {
+        font-size: 3vw;
+        padding: 14px 28px;
+    }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+    p,
+    h2 {
+        font-size: 5vw;
+    }
+
+    h1 {
+        font-size: 10vw;
+    }
+
+    .back-button {
+        font-size: 4vw;
+        padding: 16px 32px;
+    }
+}
