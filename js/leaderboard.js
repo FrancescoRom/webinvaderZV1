@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const leaderboardData = [
     { name: "Alice", score: 70 },
     { name: "Bob", score: 62 },
-    { name: "Charlie", score: 50 },
+    { name: "Charlie", score: 50 }, // basic placeholders for leaderboarddata
     { name: "David", score: 30 },
     { name: "Eve", score: 10 },
   ];

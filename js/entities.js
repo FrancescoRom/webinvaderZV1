@@ -189,20 +189,20 @@ class Zombie extends Entity {
     this.difficulty = difficulty;
     this.setDifficultySettings();
   }
-  // zombie speed based on dfficulty
+  // Zombie speed based on dfficulty
   setDifficultySettings() {
     switch (this.difficulty) {
       case "Easy":
-        this.speed = 0.8;
+        this.speed = 1;
         break;
       case "Medium":
-        this.speed = 1.2;
-        break;
-      case "Hard":
         this.speed = 1.5;
         break;
+      case "Hard":
+        this.speed = 1.8;
+        break;
       default:
-        this.speed = 1.2;
+        this.speed = 1.5;
         break;
     }
   }

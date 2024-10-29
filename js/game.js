@@ -10,7 +10,7 @@ let zombies = [];
 let lastZombieSpawn = 0;
 let playerScore = 0; // Variable to store the player's score
 let gameDifficulty = "Medium"; // Default difficulty
-const ZOMBIE_SPAWN_INTERVAL = 2000; // Spawn a new zombie every 2 seconds
+const ZOMBIE_SPAWN_INTERVAL = 1000; // Spawn a new zombie every 2 seconds
 let playerHits = 0; // Track the number of times the player is hit
 const MAX_PLAYER_HITS = 3; // Maximum hits before game over
 let lastHitTime = 0; // Track the last time the player was hit
@@ -70,24 +70,25 @@ function initGame() {
 function gameDifficultySettings(difficulty) {
   switch (difficulty) {
     case "Easy":
-      player.speed = 2.3;
-      ZOMBIE_SPAWN_INTERVAL = 3000;
-      break;
-    case "Medium":
-      player.speed = 2;
+      player.speed = 3; // Zombie speed 1
       ZOMBIE_SPAWN_INTERVAL = 2000;
       break;
+    case "Medium":
+      player.speed = 2; // Zombie speed 1.5
+      ZOMBIE_SPAWN_INTERVAL = 1000;
+      break;
     case "Hard":
-      player.speed = 1.7;
+      player.speed = 2.5; // Zombie speed 1.8
       ZOMBIE_SPAWN_INTERVAL = 500;
       break;
     default:
-      player.speed = 2;
-      ZOMBIE_SPAWN_INTERVAL = 2000;
+      player.speed = 2; // Zombie speed 1.5 (default)
+      ZOMBIE_SPAWN_INTERVAL = 1000;
       break;
   }
 }
 
+// Handle start game function, hide buttons, logo, call resetgame after death and start the game again
 function handleStartGame() {
   document.getElementById("startButton").style.display = "none";
   document.getElementById("gameLogo").style.display = "none";
@@ -219,6 +220,24 @@ function gameLoop() {
 // Start the game
 function startGame() {
   gameRunning = true;
+  zombies = []; // Clear existing zombies
+
+  // Spawn zombies based on the game difficulty
+  let numberOfZombies;
+  if (gameDifficulty === "Hard") {
+    numberOfZombies = 10;
+  } else if (gameDifficulty === "Medium") {
+    numberOfZombies = 7;
+  } else if (gameDifficulty === "Easy") {
+    numberOfZombies = 4;
+  } else {
+    numberOfZombies = 7; // Default to Medium if difficulty is not set
+  }
+
+  for (let i = 0; i < numberOfZombies; i++) {
+    zombies.push(createZombie());
+  }
+
   requestAnimationFrame(gameLoop);
 }
 
@@ -230,6 +249,7 @@ function resetGame() {
   zombies = []; // Clear existing zombies
   player.x = canvas.width / 2; // Reset player position
   player.y = canvas.height - 150;
+  keys = {};
   updateScoreDisplay();
   updatePlayerHPDisplay();
 }
@@ -253,14 +273,14 @@ function checkCollisions() {
   const currentTime = Date.now();
   zombies.forEach((zombie, index) => {
     if (isColliding(player, zombie)) {
-      if (currentTime - lastHitTime > 3000) {
-        // 3 seconds cooldown
+      if (currentTime - lastHitTime > 1500) {
+        // 1.5 second cooldown
         playerHits += 1;
         lastHitTime = currentTime;
         console.log(`Player hit by zombie! Hits: ${playerHits}`);
         updatePlayerHPDisplay();
         if (playerHits >= MAX_PLAYER_HITS) {
-          endGame();
+          endGame(); // End game if HP hits zero
         }
       }
     }
