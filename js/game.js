@@ -71,19 +71,19 @@ function gameDifficultySettings(difficulty) {
   switch (difficulty) {
     case "Easy":
       player.speed = 3; // Zombie speed 1
-      ZOMBIE_SPAWN_INTERVAL = 2000;
+      ZOMBIE_SPAWN_INTERVAL = 3000;
       break;
     case "Medium":
       player.speed = 2; // Zombie speed 1.5
-      ZOMBIE_SPAWN_INTERVAL = 1000;
+      ZOMBIE_SPAWN_INTERVAL = 2000;
       break;
     case "Hard":
       player.speed = 2.5; // Zombie speed 1.8
-      ZOMBIE_SPAWN_INTERVAL = 500;
+      ZOMBIE_SPAWN_INTERVAL = 1000;
       break;
     default:
       player.speed = 2; // Zombie speed 1.5 (default)
-      ZOMBIE_SPAWN_INTERVAL = 1000;
+      ZOMBIE_SPAWN_INTERVAL = 2000;
       break;
   }
 }
@@ -231,7 +231,7 @@ function startGame() {
   } else if (gameDifficulty === "Easy") {
     numberOfZombies = 4;
   } else {
-    numberOfZombies = 7; // Default to Medium if difficulty is not set
+    numberOfZombies = 7;
   }
 
   for (let i = 0; i < numberOfZombies; i++) {
@@ -301,7 +301,7 @@ function isColliding(obj1, obj2) {
 function endGame() {
   gameRunning = false;
   saveUserScore(playerScore); // Save the score when the game ends
-  alert("Game Over! You were hit 3 times.");
+  alert(`Game Over! You killed ${playerScore} zombies!`);
   document.getElementById("startButton").style.display = "block";
   document.getElementById("gameLogo").style.display = "block";
   document.querySelector(".buttons").style.display = "block";
